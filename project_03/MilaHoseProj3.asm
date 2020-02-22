@@ -7,25 +7,7 @@
 .stack 4096
 ExitProcess proto, dwExitCode:dword
 
-.code
-main proc
-	; PROBLEM 1
-	; Write a program that calculates the  
-	; following expression, using registers
-	; A = (A + B) ? (C + D)
-	; Assign integer values to EAX, EBX, ECX & ECX
-
-	mov	eax, 15		; move 15 to the eax register
-	mov ebx, 5		; move 5 to the ebx register
-	mov ecx, 3		; move 3 to the ecx register
-	mov edx, 7		; move 7 to the edx register
-
-	add eax, ebx	; add the value in ebx (5) to the eax register -- eax register now holds 20
-	add ecx, edx	; add the value in edx (7) to the ecx register -- ecx register now holds 10
-	sub eax, ecx	; subtract the value in the ecx register (10) from the value in the eax register (20)
-					; the eax register now holds a value of 10
-
-
+.data
 	; PROBLEM 2	
 	; Write code that defines symbolic constants for all 7 days of the week.
 	; Create an array variable that uses the symbols as initializers.
@@ -39,7 +21,6 @@ main proc
 	Sun=6
 
 	week BYTE Mon, Tues, Wed, Thurs, Fri, Sat, Sun
-
 
 	; PROBLEM 3
 	; The program must contain a definition of each data type listed in Table 3.2, Section 3.4.
@@ -72,6 +53,24 @@ main proc
 	var2 BYTE assembly
 	var3 BYTE class
 	var4 BYTE assignment
+
+.code
+main proc
+	; PROBLEM 1
+	; Write a program that calculates the  
+	; following expression, using registers
+	; A = (A + B) ? (C + D)
+	; Assign integer values to EAX, EBX, ECX & ECX
+
+	mov	eax, 15		; move 15 to the eax register
+	mov ebx, 5		; move 5 to the ebx register
+	mov ecx, 3		; move 3 to the ecx register
+	mov edx, 7		; move 7 to the edx register
+
+	add eax, ebx	; add the value in ebx (5) to the eax register -- eax register now holds 20
+	add ecx, edx	; add the value in edx (7) to the ecx register -- ecx register now holds 10
+	sub eax, ecx	; subtract the value in the ecx register (10) from the value in the eax register (20)
+	              ; the eax register now holds a value of 10
 
 	invoke ExitProcess, 0
 main endp
