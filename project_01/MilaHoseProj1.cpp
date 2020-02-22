@@ -1,10 +1,11 @@
-//  Project description
-//  Your Name
-//  Date starts the project
+//  Project 1
+//  Mila Hose
+//  1/28/2020
 
 #include <iostream>
 #include <string>
 #include <cassert>
+#include <cmath>
 
 using namespace std;
 
@@ -21,6 +22,10 @@ string add_binaries(string b1, string b2);
 //               b1 and b2 are binary representations of two positive integers
 // postcondition: the sum of b1 and b2 is returned. For instance,
 //  if b1 = “11”, b2 = “01”, then the return value is “100”
+
+string strReverse(string s);
+// precondition: s is a string with length > 0
+// postcondition: the string with all characters reversed
 
 void menu();
 // display the menu. Student shall not modify this function
@@ -97,23 +102,112 @@ int main()
                 break;
         }
         
-    }while(choice != 5);
+    } while(choice != 5);
     return 0;
 }
 
 int binary_to_decimal(string s){
     // you implement this
-    return 0;
+    
+    int exponent = 0, decimal = 0;
+    int count = static_cast<int>(s.length() - 1);
+
+    while (count >= 0) {
+        if (s[count] == '1') {
+            // 2 times exponent place value
+            decimal += pow(2, exponent);
+        }
+        
+        count--;
+        exponent++;
+    }
+
+    return decimal;
 }
 
 string decimal_to_binary(int n){
     // you implement this
-    return "0";
+    
+    string binary = "";
+    int quotient = n, remainder = n;
+    
+    // Don't loop if 0 or 1
+    if (n == 0) {
+        return "0";
+    } else if (n == 1) {
+        return "1";
+    }
+    
+    while (quotient > 0) {
+        remainder = quotient - (floor(quotient / 2) * 2);
+        quotient = floor(quotient / 2);
+
+        if (remainder % 2 > 0) {
+            binary += "1";
+        } else {
+            binary += "0";
+        }
+    }
+    
+    return strReverse(binary);
 }
 
 string add_binaries(string b1, string b2){
     // you implement this
-    return "0";
+
+    int b1Length = static_cast<int>(b1.length());
+    int b2Length = static_cast<int>(b2.length());
+    int difference = b1Length > b2Length ? (b1Length - b2Length) : (b2Length - b1Length);
+    string zeroPadding = "", sum = "";
+    bool carryOne = false;
+    
+    while (difference > 0) {
+        zeroPadding += "0";
+        difference--;
+    }
+    
+    if (b1.length() > b2.length()) {
+        b2 = zeroPadding + b2;
+        b2Length = static_cast<int>(b2.length());
+    } else {
+        b1 = zeroPadding + b1;
+        b1Length = static_cast<int>(b1.length());
+    }
+    
+    for (int i = b1Length - 1; i >= 0; i--) {
+        if (b1[i] == '1' && b2[i] == '1') {
+            if (carryOne) {
+                sum += "1";
+                carryOne = true;
+            } else {
+                sum += "0";
+                carryOne = true;
+            }
+        } else if (b1[i] == '1' || b2[i] == '1') {
+            if (carryOne) {
+                sum += "0";
+                carryOne = true;
+            } else {
+                sum += "1";
+                carryOne = false;
+            }
+        } else { // both are 0
+            if (carryOne) {
+                sum += "1";
+                carryOne = false;
+            } else {
+                sum += "0";
+                carryOne = false;
+            }
+        }
+    }
+    
+    // Don't forget final carry
+    if (carryOne) {
+        sum += "1";
+    }
+
+    return strReverse(sum);
 }
 
 void menu()
@@ -186,4 +280,15 @@ bool test_add_binaries(){
     if(add_binaries("1", "110111") != "111000") return false;
     if(add_binaries("101", "111011") != "1000000") return false;
     return true;
+}
+
+string strReverse(string s) {
+    int strLength = static_cast<int>(s.length() - 1);
+    string reversedStr = "";
+
+    for (int i = strLength; i >= 0; i--) {
+        reversedStr += s[i];
+    }
+    
+    return reversedStr;
 }
